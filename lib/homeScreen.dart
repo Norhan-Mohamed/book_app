@@ -114,75 +114,80 @@ class _homeState extends State<Home> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => showModalBottomSheet(
-          isScrollControlled: true,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
-          context: context,
-          barrierColor: Colors.white70,
-          backgroundColor: Colors.white,
-          builder: (context) => Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Container(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                    ),
-                    TextFormField(
-                      controller: myController,
-                      decoration: InputDecoration(hintText: 'Book Title'),
-                      autofocus: true,
-                    ),
-                    TextFormField(
-                      controller: mySecondController,
-                      decoration: InputDecoration(hintText: 'Book Author'),
-                    ),
-                    TextFormField(
-                      controller: myThirdController,
-                      decoration: InputDecoration(hintText: 'Book Cover URL'),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 200,
-                      height: 35,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          BookProvider.instance.insert(Book(
-                              Image: myController.text,
-                              Name: mySecondController.text,
-                              AuthorName: myThirdController.text));
-                          print(bookList);
+          child: Icon(Icons.add),
+          onPressed: () async {
+            await showModalBottomSheet(
+              isScrollControlled: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(25.0))),
+              context: context,
+              barrierColor: Colors.white70,
+              backgroundColor: Colors.white,
+              builder: (context) => Padding(
+                padding: MediaQuery.of(context).viewInsets,
+                child: Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        ),
+                        TextFormField(
+                          controller: myController,
+                          decoration: InputDecoration(hintText: 'Book Title'),
+                          autofocus: true,
+                        ),
+                        TextFormField(
+                          controller: mySecondController,
+                          decoration: InputDecoration(hintText: 'Book Author'),
+                        ),
+                        TextFormField(
+                          controller: myThirdController,
+                          decoration:
+                              InputDecoration(hintText: 'Book Cover URL'),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: 200,
+                          height: 35,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await BookProvider.instance.insert(Book(
+                                  Image: myController.text,
+                                  Name: mySecondController.text,
+                                  AuthorName: myThirdController.text));
+                              print(bookList);
 
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'ADD',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                              Navigator.pop(context);
+                              // setState(() {});
+                            },
+                            child: Text(
+                              'ADD',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff0977cb),
+                            ),
+                          ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xff0977cb),
-                        ),
-                      ),
+                        SizedBox(height: 20),
+                      ],
                     ),
-                    SizedBox(height: 20),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
+            );
+            setState(() {});
+          }),
     );
   }
 }
