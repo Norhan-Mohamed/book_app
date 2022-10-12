@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 String name = 'Name';
 final String Id = 'id';
 final String authorName = 'AuthorName';
-final dynamic image = 'Image';
+final dynamic Cimage = 'image';
 
 class BookProvider {
   late Database db;
@@ -24,7 +24,7 @@ create table BookTable (
   $Id integer primary key autoincrement,
   $name text not null,
  $authorName text not null,
-  $image text not null
+  $Cimage text not null
   )
 ''');
     });
