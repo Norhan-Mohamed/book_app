@@ -16,7 +16,7 @@ class _homeState extends State<Home> {
   TextEditingController mySecondController = TextEditingController();
   TextEditingController myThirdController = TextEditingController();
   late String Name;
-  late String Image;
+  late String newImage;
   late String AuthorName;
 
   @override
@@ -50,77 +50,90 @@ class _homeState extends State<Home> {
                       Book book = bookList[index];
                       return SingleChildScrollView(
                         scrollDirection: Axis.vertical,
-                        child: Column(children: [
-                          Row(children: [
-                            Container(
-                              // child: Image.network('https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'),
-                              child: Image(image.NetworkImage('')),
-                            ),
-                            Expanded(
-                              child: Column(children: [
-                                Text(book.Name.toString()),
-                                Text(book.AuthorName.toString()),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(children: [
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  // fit: BoxFit.fill,
+                                  alignment: Alignment.center,
+                                  child: Image(
+                                    image: NetworkImage(
+                                      book.image.toString(),
+                                    ),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(children: [
+                                    Text(book.Name.toString()),
+                                    Text(book.AuthorName.toString()),
+                                  ]),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.blue,
+                                  ),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              'Delete Book',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 35),
+                                            ),
+                                            content: Text(
+                                              'Are you sure you want to delete this book?',
+                                              style: TextStyle(
+                                                  color: Colors.black45,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            actions: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    'Cancel',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 25),
+                                                  )),
+                                              ElevatedButton(
+                                                  onPressed: () async {
+                                                    if (book.id != null)
+                                                      await BookProvider
+                                                          .instance
+                                                          .delete(book.id);
+                                                    Navigator.of(context).pop();
+                                                    setState(() {});
+                                                  },
+                                                  child: Text(
+                                                    'Yes',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 25),
+                                                  )),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                ),
                               ]),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.blue,
-                              ),
-                              color: Colors.white,
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                          'Delete Book',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 35),
-                                        ),
-                                        content: Text(
-                                          'Are you sure you want to delete this book?',
-                                          style: TextStyle(
-                                              color: Colors.black45,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        actions: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                'Cancel',
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 25),
-                                              )),
-                                          ElevatedButton(
-                                              onPressed: () async {
-                                                if (book.id != null)
-                                                  await BookProvider.instance
-                                                      .delete(book.id);
-                                                Navigator.of(context).pop();
-                                                setState(() {});
-                                              },
-                                              child: Text(
-                                                'Yes',
-                                                style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 25),
-                                              )),
-                                        ],
-                                      );
-                                    });
-                              },
-                            ),
-                          ]),
-                        ]),
+                            ]),
                       );
                     });
               }
