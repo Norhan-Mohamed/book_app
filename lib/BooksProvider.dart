@@ -2,10 +2,10 @@ import 'package:book_app/Book.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-String name = 'Name';
-final String Id = 'id';
-final String authorName = 'AuthorName';
-final dynamic Cimage = 'image';
+String ColumnName = 'Name';
+const String ColumnId = 'id';
+const String ColumnAuthorName = 'AuthorName';
+const dynamic Columnimage = 'image';
 
 class BookProvider {
   late Database db;
@@ -21,10 +21,10 @@ class BookProvider {
         version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
 create table BookTable ( 
-  $Id integer primary key autoincrement,
-  $name text not null,
- $authorName text not null,
-  $Cimage text not null
+  $ColumnId integer primary key autoincrement,
+  $ColumnName text not null,
+  $ColumnAuthorName text not null,
+  $Columnimage text not null
   )
 ''');
     });
@@ -54,7 +54,7 @@ create table BookTable (
 
   Future<int> update(Book book) async {
     return await db.update('BookTable', book.toMap(),
-        where: '$Id = ?', whereArgs: [book.id]);
+        where: '$ColumnId = ?', whereArgs: [book.id]);
   }
 
   Future close() async => db.close();
